@@ -1,0 +1,84 @@
+﻿<Window x:Class="PlaylistsMadeEasy.ComparePlaylistsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PlaylistsMadeEasy"
+        mc:Ignorable="d"
+        Title="Comparing Playlists" Height="450" Width="800">
+    <DockPanel>
+        <DockPanel.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="Margin" Value="5 5 5 0"/>
+                <Setter Property="BorderBrush" Value="#FF9F9A8A"/>
+                <Setter Property="BorderThickness" Value="2.5"/>
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                            <GradientStop Color="White" Offset="0" />
+                            <GradientStop Color="LightBlue" Offset=".5" />
+                            <GradientStop Color="White" Offset="1.3" />
+                        </LinearGradientBrush>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Effect">
+                    <Setter.Value>
+                        <DropShadowEffect BlurRadius="1" ShadowDepth="1.25" Color="#FF166F96" Direction="315"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </DockPanel.Resources>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <Label Content="Lines Unique to:" FontWeight="Bold"/>
+                        <Label Name="lbl_PlaylistOneName"/>
+                    </StackPanel>
+                    <ScrollViewer Margin="5">
+                        <ListView Name="lvPlaylistOne">
+                        <ListView.View>
+                            <GridView>
+                                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding}">
+                                    <GridViewColumn.Header>
+                                        <GridViewColumnHeader HorizontalContentAlignment="Left" Tag="Song Path" Click="GridViewColumnHeader_Click">Name</GridViewColumnHeader>
+                                    </GridViewColumn.Header>
+                                </GridViewColumn>                             
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    </ScrollViewer>
+                </DockPanel>
+
+            </Border>
+            <Border Grid.Column="1">
+                <DockPanel>
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                        <Label Content="Lines Unique to:" FontWeight="Bold"/>
+                        <Label Name="lbl_PlaylistTwoName"/>
+                    </StackPanel>
+                    <ScrollViewer Margin="5">
+                        <ListView Name="lvPlaylistTwo">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding}">
+                                        <GridViewColumn.Header>
+                                            <GridViewColumnHeader HorizontalContentAlignment="Left" Tag="Song Path" Click="GridViewColumnHeader_Click">Name</GridViewColumnHeader>
+                                        </GridViewColumn.Header>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </ScrollViewer>
+                </DockPanel>
+
+            </Border>
+        </Grid>
+    </DockPanel>
+
+</Window>
