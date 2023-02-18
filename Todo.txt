@@ -1,1 +1,2 @@
-﻿
+﻿-remove any files that match the regex of a guid in the directory where the playlists are copied to
+-make sure to copy the playlist even if a file is not present for copying (it currently skips the file but doesn't copy the playlist over at the end)

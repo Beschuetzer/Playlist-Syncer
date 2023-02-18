@@ -8,11 +8,11 @@ using System.Text.RegularExpressions;
 using System.Security.Cryptography;
 using System.Threading;
 using System.ComponentModel;
-using MediaDevices;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.Windows.Shapes;
 using Path = System.IO.Path;
+using MediaDevices;
 
 namespace PlaylistsMadeEasy
 {
@@ -1004,11 +1004,11 @@ namespace PlaylistsMadeEasy
                                 string destOnPhone = Path.Combine(DestinationOnPhoneLocations[(int)phoneDestinationDirectory], "Playlists");
                                 string playlistNameWithExtension = Path.GetFileName(playlist.Name) + targetPlaylistExtension;
                                 string targetPath = Path.Combine(destOnPhone, playlistNameWithExtension);
-                                string localPhonePlaylistCopyPath = Path.Combine(TempComparisonDirectory, playlistNameWithExtension);
+                                string localPhonePlaylistCopyPath = Path.Combine(TempDirectoryCreation, playlistNameWithExtension);
                                 string sourcePath = Path.Combine(TempDirectoryCreation, playlist.Name + targetPlaylistExtension);
 
                                 msg = string.Format("Playlist: {0} finished", playlist.Name + targetPlaylistExtension);
-                                UpdateTransferProgress(msg, true);
+                                UpdateTransferProgress(msg, true);    
                                 if (device.FileExists(targetPath) && GetHash(sourcePath) != GetHash(localPhonePlaylistCopyPath))
                                 {
                                     Guid guid = Guid.NewGuid();
@@ -1023,6 +1023,9 @@ namespace PlaylistsMadeEasy
                         {
                             Directory.Delete(TempComparisonDirectory, true);
                         }
+
+                        //todo: figure out how to delete renamed file
+                        //device.DeleteFile(Path.Combine(destOnPhone, guid.ToString()));
                     }
                 }
                 #endregion

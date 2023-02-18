@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MediaDevices, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\PlaylistManager\packages\MediaDevices.1.8.0\lib\net45\MediaDevices.dll</HintPath>
+    <Reference Include="MediaDevices, Version=1.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\MediaDevices.1.10.0\lib\net48\MediaDevices.dll</HintPath>
     </Reference>
     <Reference Include="policy.2.0.taglib-sharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=db62eba44689b5b0, processorArchitecture=MSIL">
       <HintPath>packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
@@ -128,10 +128,13 @@
     <Resource Include="Images\Transfer Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="MediaDevicesLicense.txt" />
+    <Resource Include="Images\MusicIcon-Black.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\MusicIcon-Black.jpg" />
+    <Resource Include="Todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="MediaDevicesLicense.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
