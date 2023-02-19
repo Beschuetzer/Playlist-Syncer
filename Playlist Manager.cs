@@ -962,10 +962,10 @@ namespace PlaylistsMadeEasy
                                 #endregion
 
                                 //MessageBox.Show(string.Format("TransferProgressList: {0}", TransferProgressList));
-                                if (songsChecked % reconnectInterval == 0)
-                                {
-                                    device.Connect();
-                                }
+                                //if (songsChecked % reconnectInterval == 0)
+                                //{
+                                //    device.Connect();
+                                //}
                                 string destOnPhone = Path.Combine(DestinationOnPhoneLocations[(int)phoneDestinationDirectory], Path.GetFileName(songToCopyPath));
                                 if (!device.FileExists(destOnPhone))
                                 {
@@ -989,14 +989,14 @@ namespace PlaylistsMadeEasy
                                     UpdateTransferProgress(msg);
                                     songsChecked++;
                                 }
-                                if (songsChecked % reconnectInterval == 0)
-                                {
-                                    device.Disconnect();
-                                }
+                                //if (songsChecked % reconnectInterval == 0)
+                                //{
+                                //    device.Disconnect();
+                                //}
                             }
 
                             #region Copying the Playlist if all Songs Transferred
-                            device.Connect();
+                            //device.Connect();
                             if (songsChecked == playlist.SongPathesToCopy.Count)
                             {
                                 //todo: need to remove hard-coding here of "playlists"
@@ -1005,15 +1005,22 @@ namespace PlaylistsMadeEasy
                                 string playlistNameWithExtension = Path.GetFileName(playlist.Name) + targetPlaylistExtension;
                                 string targetPath = Path.Combine(destOnPhone, playlistNameWithExtension);
                                 string sourcePath = Path.Combine(TempDirectoryCreation, playlistNameWithExtension);
+                                var tempFilePath = "";
 
                                 msg = string.Format("Playlist: {0} finished", playlist.Name + targetPlaylistExtension);
-                                UpdateTransferProgress(msg, true);    
-                                if (device.FileExists(targetPath) && GetHash(sourcePath) != GetHash(targetPath))
+                                UpdateTransferProgress(msg, true);
+                                if (device.FileExists(targetPath))
                                 {
                                     Guid guid = Guid.NewGuid();
                                     device.Rename(targetPath, guid.ToString());
+                                    tempFilePath = Path.Combine(destOnPhone, guid.ToString());
                                 }                         
                                 device.UploadFile(sourcePath, targetPath);
+
+                                if (device.FileExists(tempFilePath))
+                                {
+                                    device.DeleteFile(tempFilePath);
+                                }
                             }
                             #endregion
                             #endregion
@@ -1024,7 +1031,6 @@ namespace PlaylistsMadeEasy
                         }
 
                         //todo: figure out how to delete renamed file
-                        //device.DeleteFile(Path.Combine(destOnPhone, guid.ToString()));
                     }
                 }
                 #endregion
