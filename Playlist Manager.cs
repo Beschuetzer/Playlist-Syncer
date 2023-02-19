@@ -923,7 +923,7 @@ namespace PlaylistsMadeEasy
                 var device = devices.First(d => d.FriendlyName == phoneName);
 
                 #endregion
-                int reconnectInterval = 5;
+                //int reconnectInterval = 5;
                 #region Coping the Files then the Playlist if all Files Copied Sucessfully
                 try
                 {
@@ -1005,19 +1005,26 @@ namespace PlaylistsMadeEasy
                                 string playlistNameWithExtension = Path.GetFileName(playlist.Name) + targetPlaylistExtension;
                                 string targetPath = Path.Combine(destOnPhone, playlistNameWithExtension);
                                 string sourcePath = Path.Combine(TempDirectoryCreation, playlistNameWithExtension);
+                                string localPathForPhonePlaylist = Path.Combine(TempComparisonDirectory, playlistNameWithExtension);
                                 var tempFilePath = "";
 
                                 msg = string.Format("Playlist: {0} finished", playlist.Name + targetPlaylistExtension);
                                 UpdateTransferProgress(msg, true);
-                                if (device.FileExists(targetPath))
-                                {
-                                    Guid guid = Guid.NewGuid();
-                                    device.Rename(targetPath, guid.ToString());
-                                    tempFilePath = Path.Combine(destOnPhone, guid.ToString());
-                                }                         
-                                device.UploadFile(sourcePath, targetPath);
+                                var hashLocal = GetHash(sourcePath);
+                                var hashPhone = GetHash(localPathForPhonePlaylist);
 
-                                if (device.FileExists(tempFilePath))
+                                if (hashLocal != hashPhone)
+                                {
+                                    if (device.FileExists(targetPath))
+                                    {
+                                        Guid guid = Guid.NewGuid();
+                                        device.Rename(targetPath, guid.ToString());
+                                        tempFilePath = Path.Combine(Path.GetDirectoryName(targetPath), guid.ToString());
+                                    }
+                                    device.UploadFile(sourcePath, targetPath);
+                                }
+
+                                if (!string.IsNullOrEmpty(tempFilePath) && device.FileExists(tempFilePath))
                                 {
                                     device.DeleteFile(tempFilePath);
                                 }
@@ -1350,6 +1357,7 @@ namespace PlaylistsMadeEasy
         /// <returns>a string representing the SHA256 hash of a file</returns>
         public static string GetHash(string pathToFile)
         {
+            if (string.IsNullOrEmpty(pathToFile)) return "";
             // The cryptographic service provider.
             SHA256 Sha256 = SHA256.Create();
             byte[] res;
