@@ -1004,17 +1004,16 @@ namespace PlaylistsMadeEasy
                                 string destOnPhone = Path.Combine(DestinationOnPhoneLocations[(int)phoneDestinationDirectory], "Playlists");
                                 string playlistNameWithExtension = Path.GetFileName(playlist.Name) + targetPlaylistExtension;
                                 string targetPath = Path.Combine(destOnPhone, playlistNameWithExtension);
-                                string localPhonePlaylistCopyPath = Path.Combine(TempDirectoryCreation, playlistNameWithExtension);
-                                string sourcePath = Path.Combine(TempDirectoryCreation, playlist.Name + targetPlaylistExtension);
+                                string sourcePath = Path.Combine(TempDirectoryCreation, playlistNameWithExtension);
 
                                 msg = string.Format("Playlist: {0} finished", playlist.Name + targetPlaylistExtension);
                                 UpdateTransferProgress(msg, true);    
-                                if (device.FileExists(targetPath) && GetHash(sourcePath) != GetHash(localPhonePlaylistCopyPath))
+                                if (device.FileExists(targetPath) && GetHash(sourcePath) != GetHash(targetPath))
                                 {
                                     Guid guid = Guid.NewGuid();
                                     device.Rename(targetPath, guid.ToString());
-                                    device.UploadFile(sourcePath, targetPath);
-                                }                               
+                                }                         
+                                device.UploadFile(sourcePath, targetPath);
                             }
                             #endregion
                             #endregion
